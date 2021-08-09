@@ -13,7 +13,9 @@ export class BorderCardDirective {
     }
 
     // On declare notre propriété borderColor
-    @Input('pkmnBorderCard') borderColor : string;
+
+    @Input('pkmnBorderCard')
+    borderColor!: string;
 
     @HostListener('mouseenter') onMouseEnter() {
         // On attribute la couleur souhaitée, sinon on attribue une valeur par /// défaut
