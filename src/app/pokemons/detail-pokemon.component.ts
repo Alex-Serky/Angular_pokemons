@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router, Params } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Pokemon } from './pokemon';
-import { POKEMONS } from './mock-pokemons';
+import { PokemonsService } from './pokemons.service';
 
 @Component({
     selector: 'detail-pokemon',
@@ -15,21 +15,19 @@ export class DetailPokemonComponent implements OnInit {
     // et 'router' pour rediriger l'utilisateur.
     constructor(
         private route: ActivatedRoute,
-        private router: Router) {}
+        private router: Router,
+        private pokemonsService: PokemonsService) {}
 
     ngOnInit(): void {
-        // On initialise la liste de nos pokémons :
-        this.pokemons = POKEMONS;
         // On récupère le paramère 'id' contenu dans l'url :
-        let id = +this.route.snapshot.paramMap.get("id")!;
-        // On itère sur le tableau de pokémons pour trouver le pokémon avec le  bon identifiant :
-        for (let i = 0; i < this.pokemons.length; i++) {
-            // Si on trouve un pokémon avec le bon identifiant,
-            // on affecte ce pokémon à la propriété du composant :
-            if (this.pokemons[i].id == id) {
-                this.pokemon = this.pokemons[i];
-            }
-        }
+        let id = +this.route.snapshot.paramMap.get('id')!;
+        this.pokemon = this.pokemonsService.getPokemon(id);
+    }
+
+    // On crée une méthode qui s'occupe de la redirection
+    goEdit(pokemon: Pokemon): void {
+    let link = ['/pokemon/edit', pokemon.id];
+    this.router.navigate(link);
     }
 
     // Méthode permettant de rediriger l'utilisateur vers la page principale    de l'application.

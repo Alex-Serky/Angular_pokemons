@@ -15,7 +15,8 @@
                             <small>{{ pokemon.created | date: 'dd/MM/yyyy'}}</small>
                         </p>
                         <!-- On utilise la directive ngFor pour afficher tous les types d'un pokémon donnée : -->
-                        <span *ngFor='let type of pokemon.types' class="{{ type | pokemonTypeColor }}">
+                        <span *ngFor='let type of pokemon.types'
+                            class="{{ type | pokemonTypeColor }}">
                             {{ type }}
                         </span>
                     </div>
