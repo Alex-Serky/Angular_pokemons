@@ -15,6 +15,8 @@ export class PokemonFormComponent implements OnInit {
     // types disponibles pour un pokémon : 'Eau', 'Feu', etc.
     types!: Array<string>;
 
+    isAddForm!: boolean; // Le formulaire est-il en mode ajout (ou édition) ?
+
     constructor(
         private pokemonsService: PokemonsService,
         private router: Router) { }
@@ -22,6 +24,10 @@ export class PokemonFormComponent implements OnInit {
     ngOnInit() {
         // Initialisation de la propriété types
         this.types = this.pokemonsService.getPokemonTypes();
+        // On determine le mode adopté par le formulaire grâce à l’url.
+        // Si l’url contient le mot ‘add’, alors le formulaire est en mode
+        // ‘ajout’. Sinon, c’est que le formulaire doit être en mode édition.
+        this.isAddForm = this.router.url.includes('add');
     }
 
     // Détermine si le type passé en paramètres appartient ou non
@@ -59,9 +65,26 @@ export class PokemonFormComponent implements OnInit {
         return true;
     }
 
-    // La méthode appelée lorsque le formulaire est soumis.
+    // La méthode appelée lorsque le formulaire est soumis est différente
+    // en fonction du mode du formulaire. 
+    // Nous effectuons deux actions différentes :
+    //  * Soit on ajoute un nouveau Pokémon.
+    //  * Soit on sauvegarde les modifications apportées sur un Pokémon.
     onSubmit(): void {
-        console.log("Submit form !");
+        if (this.isAddForm) {
+            // Le formulaire est en mode ajout.
+            this.pokemonsService.addPokemon(this.pokemon).subscribe(pokemon => {
+                this.pokemon = pokemon;
+                this.goBack();
+            });
+        } else {
+            // Le formulaire est en mode édition.
+            this.pokemonsService.updatePokemon(this.pokemon).subscribe(_ => this.goBack());
+        }
+    }
+
+    // J'ai découpé la redirection dans une méthode dédiée goBack
+    goBack() : void {
         let link = ['/pokemon', this.pokemon.id];
         this.router.navigate(link);
     }

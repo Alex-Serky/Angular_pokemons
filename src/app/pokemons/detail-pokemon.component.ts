@@ -21,7 +21,9 @@ export class DetailPokemonComponent implements OnInit {
     ngOnInit(): void {
         // On récupère le paramère 'id' contenu dans l'url :
         let id = +this.route.snapshot.paramMap.get('id')!;
-        this.pokemon = this.pokemonsService.getPokemon(id);
+        this.pokemonsService.getPokemon(id).subscribe(
+            pokemon => this.pokemon = pokemon
+        );
     }
 
     // On crée une méthode qui s'occupe de la redirection
@@ -33,5 +35,10 @@ export class DetailPokemonComponent implements OnInit {
     // Méthode permettant de rediriger l'utilisateur vers la page principale    de l'application.
     goBack(): void {
         this.router.navigate(['/pokemons']);
+    }
+
+    // Nouvelle méthode de suppression d’un Pokémon
+    delete(pokemon: Pokemon): void {
+        this.pokemonsService.deletePokemon(pokemon).subscribe(_ => this.goBack());
     }
 }
