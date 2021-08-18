@@ -34,7 +34,7 @@ export class DetailPokemonComponent implements OnInit {
 
     // Méthode permettant de rediriger l'utilisateur vers la page principale    de l'application.
     goBack(): void {
-        this.router.navigate(['/pokemons']);
+        this.router.navigate(['/pokemon/all']);
     }
 
     // Nouvelle méthode de suppression d’un Pokémon

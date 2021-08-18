@@ -11,6 +11,6 @@ export function strongPasswordValidator(): ValidatorFn {
         const valid = strongRegex.test(password);
 
         // On retourne null si le mot de passe est assez fort, et un dictionnaire d'erreur sinon :
-        return valid ? null : { 'strongPasswordError': { password } };
+        return valid ? null! : { 'strongPasswordError': { password } };
     };
 }
