@@ -84,8 +84,8 @@ export class PokemonsService {
             headers: new HttpHeaders({ 'Content-Type': 'application/json' })
         };
 
-        return this.http.post<Pokemon>(this.pokemonsUrl, httpOptions).pipe(
-            tap((pokemon: Pokemon) => this.log(`added pokemon with id = ${pokemon.id}`)),
+        return this.http.post<Pokemon>(this.pokemonsUrl, pokemon, httpOptions).pipe(
+            tap(() => this.log(`added pokemon with id = ${pokemon.id}`)),
             catchError(this.handleError<Pokemon>('addPokemon'))
         );
     }
@@ -102,6 +102,5 @@ export class PokemonsService {
             catchError(this.handleError<Pokemon[]>('searchPokemons', []))
             );
     }
-
 
 }
